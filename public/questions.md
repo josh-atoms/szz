@@ -175,22 +175,46 @@ Tracking Areas (TAs) are groups of cells. The MME tracks the UE’s location at 
 
 ### **5\. 5G Cellular Systems: Frequency spectrum, Radio propagation, and Technical enablers. Network densifications.**
 
-* **Frequency Spectrum (FR1 & FR2):**
 
-5G New Radio (NR) operates across two broad Frequency Ranges (FR) defined by 3GPP to balance coverage and capacity
+## Frequency Spectrum
 
-* **FR1 (Sub-7 GHz, usually sub-6):** This foundational band spans from 410 MHz to 7.125 MHz . It provides wide area coverage and reliable signal penetration through obstacles, forming the primary deployment spectrum . It is commonly referred to as the Sub-6 GHz band.  
-* **FR2 (mmWave, 24.25 – 52.6 GHz):** Operating from 24.25 GHz to 71 GHz, this band is synonymous with millimeter wave . It delivers extreme capacity and multi-Gbps peak speeds due to the large available bandwidths
+5G operates across a much broader spectrum than previous generations, split into two primary Frequency Ranges (FR):
 
-**Radio Propagation (mmWave):** Radio propagation characteristics are highly dependent on the frequency band
+* **Frequency Range 1 (FR1 - Sub-6 GHz):** * Operates from **410 MHz to 7.125 GHz**.
+* Includes traditional cellular bands and new mid-band spectrum (e.g., 3.5 GHz C-band).
+* Balances wide area coverage with improved capacity.
 
-**Technical Enablers:**
 
-To meet IMT-2020 requirements, 5G integrates several key physical layer technologies that overcome propagation challenges
+* **Frequency Range 2 (FR2 - mmWave):**
+* Operates from **24.25 GHz to 52.6 GHz** (and higher).
+* Offers massive bandwidth (hundreds of MHz) for ultra-high data rates.
+* Suffer from highly limited range and poor penetration.
 
-* **Massive MIMO:** This cornerstone technology uses a very large number of antennas at the base station to focus signals into narrow, powerful beams toward specific users (beamforming) and transmit multiple data streams simultaneously, dramatically improving spectral efficiency and cell capacity.  
-* **Carrier Aggregation:** This technique combines multiple separate frequency blocks to create a wider effective channel bandwidth for a single user, boosting data rate and capacity.  
-* **Network Adaptability:** 5G continuously adapts its transmissions using adaptive modulation and coding schemes, adjusting data rates based on real-time channel conditions and link quality
+
+## Radio Propagation
+
+As frequencies increase into the millimeter-wave (mmWave) domain, radio wave behavior changes drastically:
+
+* **High Path Loss:** High-frequency signals attenuate rapidly over distance according to the Friis transmission equation, where path loss is proportional to the square of the frequency ($FSPL \propto f^2$).
+* **Line-of-Sight (LoS) Dependence:** mmWave signals are easily blocked by physical obstacles like buildings, foliage, walls, and even human bodies or rain (atmospheric absorption).
+* **Diffraction Limitations:** Unlike lower frequencies, mmWave signals do not bend (diffract) well around corners, leading to distinct "shadow zones."
+
+
+## Technical Enablers
+
+To overcome propagation challenges and meet 5G performance targets, several foundational technologies are deployed:
+
+* **Massive MIMO (Multiple-Input Multiple-Output):** Base stations use arrays with dozens or hundreds of antenna elements to transmit and receive multiple data streams simultaneously, drastically increasing spectral efficiency.
+* **Beamforming:** Instead of broadcasting signals in all directions, advanced signal processing focuses the radio energy into a narrow, directed beam targeting specific user devices. This concentrates power to overcome high path loss.
+* **Orthogonal Frequency Division Multiplexing (OFDM) Scalability:** Flexible numerology allows variable subcarrier spacing (e.g., 15, 30, 60, or 120 kHz) to handle diverse deployment scenarios from wide-area coverage to low-latency mmWave links.
+
+## Network Densification
+
+Because mmWave signals travel short distances and are easily blocked, macrocell towers alone cannot provide ubiquitous coverage.
+
+* **Small Cells:** The network is "densified" by deploying a massive number of low-power, compact base stations (small cells) on lamp posts, utility poles, and building facades.
+* **Heterogeneous Networks (HetNets):** Small cells complement the existing macro network layer, offloading data traffic in high-density urban areas and filling coverage holes.
+
 
 ### **6\. 5G cellular systems: Ultra-reliable and low latency communications.**
 
