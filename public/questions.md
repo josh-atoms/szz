@@ -295,7 +295,7 @@ NAS messages are relayed by the gNB transparently over N2.
 
 ### **10\. 5G cellular systems: Radio resource control (RRC), Service data adaptation protocol (SDAP), Packet data convergence protocol (PDCP).**
 
-### **Radio Resource Control (RRC)**
+**Radio Resource Control (RRC)**
 
 The RRC layer operates strictly within the **Control Plane** (Layer 3) and acts as the master controller for the radio interface between the User Equipment (UE) and the 5G base station (gNB). It is responsible for configuring and managing the lower layers of the protocol stack.
 
@@ -304,9 +304,7 @@ The RRC layer operates strictly within the **Control Plane** (Layer 3) and acts 
 * **Mobility:** Manages cell selection, reselection, and handovers as a device moves through the network.
 * **Measurement:** Configures how and when the UE should measure signal strength and report it back to the network to assist with mobility decisions.
 
----
-
-### **Service Data Adaptation Protocol (SDAP)**
+**Service Data Adaptation Protocol (SDAP)**
 
 SDAP is a new protocol layer introduced specifically for 5G, operating in the **User Plane** (Layer 2). Its primary purpose is to handle the more granular Quality of Service (QoS) framework required by 5G networks compared to 4G LTE.
 
@@ -314,15 +312,14 @@ SDAP is a new protocol layer introduced specifically for 5G, operating in the **
 * **Packet Marking:** Marks packets with a QoS Flow ID (QFI) in both the uplink (device to network) and downlink (network to device) directions.
 * **Dynamic Handling:** Allows the network to dynamically assign and switch radio resources based on the specific latency, reliability, or bandwidth requirements of different applications (e.g., separating standard internet traffic from critical IoT data).
 
----
-
-### **Packet Data Convergence Protocol (PDCP)**
+**Packet Data Convergence Protocol (PDCP)**
 
 The PDCP layer operates in both the **Control Plane** and **User Plane** (Layer 2) and is primarily focused on optimizing and securing the data payloads before they are transmitted over the physical radio waves.
 
 * **Header Compression:** Uses the Robust Header Compression (ROHC) protocol to compress IP headers, drastically reducing overhead and improving spectral efficiency.
 * **Security:** Handles ciphering (encryption) and deciphering of user data and control messages to prevent eavesdropping. It also provides integrity protection to ensure data has not been tampered with.
 * **Packet Ordering:** Assigns sequence numbers to packets, ensuring in-sequence delivery to higher layers, reordering out-of-order packets, and discarding duplicates (which is especially critical during cell handovers).
+
 ## **MPA MOS**
 
 ### **1\. Basic properties and components of the model of queuing system. Kendall classification. Characteristics of M/M/1 and M/M/1/0 systems.**
@@ -2057,6 +2054,7 @@ The Tensor Processing Unit is a custom application-specific integrated circuit d
 9\) Apache Spark \- machine learning, classification algorithms, clustering, frequent patterns, TF-IDF.
 
 10\) Others parallel technologies \- Apache Kafka, Nvidia Jetson, TPU.
+
 ## **MPA SKS**
 
 ### **1\. Communication System Services & Signalling**
