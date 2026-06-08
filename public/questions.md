@@ -1,3 +1,4 @@
+
 ## **MPA KPM**
 
 ### **1\. 4G Cellular Systems: Modulation schemes for LTE (OFDM, OFDMA, SC-FDMA), error-control methods (ARQ/HARQ).**
@@ -175,46 +176,22 @@ Tracking Areas (TAs) are groups of cells. The MME tracks the UE’s location at 
 
 ### **5\. 5G Cellular Systems: Frequency spectrum, Radio propagation, and Technical enablers. Network densifications.**
 
+* **Frequency Spectrum (FR1 & FR2):**
 
-** Frequency Spectrum**
-5G leverages a significantly broader and more diverse spectrum than previous generations to balance coverage area with ultra-high data speeds. The 3GPP (3rd Generation Partnership Project) divides the 5G spectrum into two primary frequency ranges:
+5G New Radio (NR) operates across two broad Frequency Ranges (FR) defined by 3GPP to balance coverage and capacity
 
-* **Frequency Range 1 (FR1) / Sub-6 GHz:** * Covers bands from **410 MHz to 7.125 GHz**.
-* **Low-band (Under 1 GHz):** Provides widespread, nationwide coverage and excellent indoor penetration, but tops out at speeds only slightly faster than 4G LTE.
-* **Mid-band (1 GHz – 7 GHz):** The "sweet spot" for 5G. It offers a strong balance of faster speeds, decent capacity, and reliable geographic coverage.
+* **FR1 (Sub-7 GHz, usually sub-6):** This foundational band spans from 410 MHz to 7.125 MHz . It provides wide area coverage and reliable signal penetration through obstacles, forming the primary deployment spectrum . It is commonly referred to as the Sub-6 GHz band.  
+* **FR2 (mmWave, 24.25 – 52.6 GHz):** Operating from 24.25 GHz to 71 GHz, this band is synonymous with millimeter wave . It delivers extreme capacity and multi-Gbps peak speeds due to the large available bandwidths
 
+**Radio Propagation (mmWave):** Radio propagation characteristics are highly dependent on the frequency band
 
-* **Frequency Range 2 (FR2) / mmWave:** * Covers high-frequency bands from **24.25 GHz to 71.0 GHz**.
-* Delivers the multi-gigabit speeds, ultra-low latency, and massive capacity often advertised with 5G.
-* Limited to very short ranges (dense urban areas, stadiums, or specific hotspots).
+**Technical Enablers:**
 
+To meet IMT-2020 requirements, 5G integrates several key physical layer technologies that overcome propagation challenges
 
-** Radio Propagation**
-The way radio waves travel in 5G depends heavily on the frequency being used:
-
-* **Line-of-Sight Dependency:** mmWave struggles to penetrate physical barriers like concrete, low-e glass windows, foliage, and even heavy rain.
-* **Human Blockage:** The human body can absorb or block mmWave signals, requiring intelligent antenna designs in smartphones to maintain connections.
-* * **FR1 Propagation:** Behaves similarly to traditional 4G/3G signals. Waves can easily diffract around obstacles, penetrate walls, and travel distances of several miles, making it practical for macro-cellular grids.
-* **FR2 (mmWave) Propagation:** Highly problematic due to the physics of very short wavelengths (10mm or smaller).
-* **High Path Loss:** Signals attenuate quickly in the atmosphere, limiting ranges to mere hundreds of feet.
-
-** Technical Enablers**
-To deliver on its promises of low latency and gigabit speeds, 5G relies on several core architectural and radio technologies:
-
-* **Massive MIMO & Beamforming:** Base stations use hundreds of antennas to transmit data simultaneously. Beamforming steers these wireless signals directly to specific devices in a focused beam, reducing interference and increasing efficiency.
-* **Network Slicing:** Allows operators to carve out multiple virtual networks on a single physical 5G infrastructure, customizing speed, capacity, and security for specific use cases (e.g., one slice for autonomous vehicles, another for mobile gaming).
-* **Dynamic Spectrum Sharing (DSS):** Enables hardware to simultaneously share the exact same spectrum band between 4G and 5G users, dynamically allocating resources based on real-time demand.
-* **Cloud-RAN (C-RAN) & Edge Computing:** Moves processing power closer to the user (the "edge" of the network) to drastically reduce latency and relying on cloud infrastructure for flexible, software-driven network management.
-* **Device-to-Device (D2D) Communication:** Allows nearby devices to communicate directly with one another without routing data through the central base station, lowering latency and offloading network traffic.
-
-### Network Densification**
-
-Because high-band 5G signals do not travel far, network operators can no longer rely solely on large, widely spaced macro cell towers. 5G requires aggressive **network densification**.
-
-* **Small Cell Deployments:** Densification relies on deploying thousands of "small cells"—miniature base stations that can be attached to streetlights, utility poles, and the sides of buildings.
-* **Types of Small Cells:** The network is layered with microcells, picocells, and femtocells to provide continuous coverage in high-traffic urban areas or indoor environments like shopping malls and office buildings.
-* **Spatial Reuse:** By shrinking the coverage area of a single cell node, frequencies can be reused much more closely together without interference. This spatial reuse is what ultimately allows a 5G network to support up to 1 million connected devices per square kilometer.
-
+* **Massive MIMO:** This cornerstone technology uses a very large number of antennas at the base station to focus signals into narrow, powerful beams toward specific users (beamforming) and transmit multiple data streams simultaneously, dramatically improving spectral efficiency and cell capacity.  
+* **Carrier Aggregation:** This technique combines multiple separate frequency blocks to create a wider effective channel bandwidth for a single user, boosting data rate and capacity.  
+* **Network Adaptability:** 5G continuously adapts its transmissions using adaptive modulation and coding schemes, adjusting data rates based on real-time channel conditions and link quality
 
 ### **6\. 5G cellular systems: Ultra-reliable and low latency communications.**
 
@@ -323,6 +300,8 @@ The PDCP layer operates in both the **Control Plane** and **User Plane** (Layer 
 * **Header Compression:** Uses the Robust Header Compression (ROHC) protocol to compress IP headers, drastically reducing overhead and improving spectral efficiency.
 * **Security:** Handles ciphering (encryption) and deciphering of user data and control messages to prevent eavesdropping. It also provides integrity protection to ensure data has not been tampered with.
 * **Packet Ordering:** Assigns sequence numbers to packets, ensuring in-sequence delivery to higher layers, reordering out-of-order packets, and discarding duplicates (which is especially critical during cell handovers).
+
+
 ## **MPA MOS**
 
 ### **1\. Basic properties and components of the model of queuing system. Kendall classification. Characteristics of M/M/1 and M/M/1/0 systems.**
@@ -642,47 +621,40 @@ This is a complementary mechanism to Fast Retransmit; it avoids dropping cwnd ba
 
 ### **8\. Mechanisms preventing congestion: Random Early Detection (RED) a Weighted Random Early Detection (WRED), Explicit Congestion Notification (ECN)**
 
+**RED (Random Early Detection)**
 
+This is an active queue management (AQM) algorithm running in routers. Instead of waiting for the buffer to overflow (tail drop), it **pro-actively drops packets** before the queue is full.
 
-### **Random Early Detection (RED)**
+* RED computes an **Exponentially Weighted Moving Average (EWMA)** of the queue length and randomly drops arriving packets with a probability P proportional to avg. 
 
-RED is a foundational queue management algorithm that preemptively drops a few packets before the router's buffer is completely full, signaling TCP senders to slow down.
+P \= max\_P \* (avg \- min\_th) / (max\_th \- min\_th).
 
-* **Mechanism:** It monitors the average queue size.
-* If the queue is below a **minimum threshold**, no packets are dropped.
-* If the queue is between the **minimum and maximum thresholds**, packets are dropped randomly with a probability that increases as the queue grows.
-* If the queue exceeds the **maximum threshold**, all incoming packets are dropped.
+avg \> max\_th: Drop all packets (tail drop).
 
+* **Goal:** The goal is to avoid global synchronization (when multiple TCP flows simultaneously experience tail-drop, halve their windows, and then all re-open at the same time, causing oscillating congestion).
 
-* **Key Benefits:** * **Prevents Global Synchronization:** By dropping packets randomly across different TCP flows, it prevents all senders from backing off and then ramping up at the exact same time (which causes cyclical network utilization).
-* **Manages Queue Depth:** Keeps the average queue size low, ensuring space is available to absorb sudden bursts of traffic.
-
-
-
-### **Weighted Random Early Detection (WRED)**
-
-WRED is an advanced extension of RED that introduces Quality of Service (QoS) into congestion avoidance. It treats traffic differently based on its priority level.
-
-* **Mechanism:** It applies different RED drop profiles (minimum/maximum thresholds and drop probabilities) to different classes of traffic. Traffic is usually classified by its IP Precedence or Differentiated Services Code Point (DSCP) values.
-* **Key Benefits:**
-* **Protects High-Priority Traffic:** Standard background traffic (like file downloads) will hit its lower RED thresholds and be dropped first. High-priority traffic (like VoIP or critical application data) will have higher thresholds, meaning it is spared from drops unless congestion is severe.
-
-
-
-### **Explicit Congestion Notification (ECN)**
-
-ECN is an extension to the IP and TCP protocols that allows end-to-end notification of network congestion without actually dropping packets.
-
-* **Mechanism:** It works in tandem with an AQM algorithm like RED.
-* When a router experiences congestion (e.g., the queue hits the RED threshold), instead of dropping the packet, it sets a specific **ECN bit** in the IP header to "mark" it.
-* The receiving device sees this mark and echoes it back to the sender in the TCP acknowledgment header.
-* The sender receives the acknowledgment, recognizes the congestion, and halves its transmission window—exactly as it would if a packet had been dropped.
-
-
-* **Key Benefits:**
-* **Reduces Latency and Retransmissions:** Because the packet isn't actually dropped, the sender doesn't have to wait for a timeout to retransmit the data, saving bandwidth and improving application performance. Both end hosts and intermediate routers must support and negotiate ECN for this to work.
+* **Effect:** Keeps queue sizes and delays low, eliminates systemic bias against bursty traffic.
 
  
+
+**WRED (Weighted Random Early Detection)**
+
+This is an extension of **RED** that supports **differentiated drop thresholds** based on IP Precedence (ToS) or DSCP markings.
+
+* With **WRED**, higher-priority traffic gets a larger min\_th (or higher max\_th), making it less likely to be dropped during incipient congestion. Low-priority traffic gets dropped more aggressively.
+
+* It enables basic class-based QoS via preferential packet discard.
+
+ 
+
+**ECN (Explicit Congestion Notification) – (in this context, AQM side)**
+
+This works in tandem with **RED**. Instead of dropping a packet, **RED** can set the **Congestion Experienced (CE)** bits in the IP header (two bits of the DSCP/ECN field) if both endpoints are ECN-capable.
+
+The TCP receiver echoes the congestion back to the sender by setting the **ECE (ECN-Echo)** flag in the ACK. The sender reacts by halving cwnd (as if a drop occurred) but without packet loss. Reduces retransmission delay, good for latency-sensitive flows.
+
+ 
+
 ### **9\. Quality of Service in data networks; Supervision of network traffic; Packet classification; Packet scheduling**
 
 QoS refers to the capability of a network to provide differentiated service levels to different traffic types, applications, or users according to their requirements.
@@ -758,6 +730,7 @@ HCCA is an extension of the legacy PCF mechanism, providing centralised, paramet
 * Admission Control: The HC accepts or rejects the request based on available resources.  
 * The HC schedules Transmission Opportunities (TXOPs) and polls stations according to a calculated schedule, granting them contention-free access.  
 * Because the HC controls all transmissions, collisions are effectively eliminated during the controlled access phases
+
 
 
 ## **MPA MUM**
@@ -1164,6 +1137,7 @@ Digital watermarking is the process of imperceptibly embedding a secret payload 
 * **Encrypted Transport:** TLS (HTTPS) is mandatory for all manifests and key requests. Prevents man-in-the-middle snooping.
 
 
+
 ## **MPA OSE**
 
 ### **1\. Transmission properties of Optical fibers, Multi-mode and Single-mode fibers, Polymer optical fibers (POF).**
@@ -1461,6 +1435,7 @@ These methods characterise the end-to-end performance of an optical fibre link. 
 **Use:** Fault localization, connector/splice loss verification, end-to-end fiber length measurement, commissioning and maintenance. Unique tool for *single-ended* measurement.
 
  
+
 
 
 ## **MPA PKT**
@@ -1796,6 +1771,7 @@ Graphical representation of finite-state machines makes protocol specifications 
 * **State Transition Table:** A tabular form listing rows for each state and columns for each event. The cell shows the next state and the actions to take. It's a more thorough but less visual method.
 
 
+
 ## **MPA PZP**
 
 ### **1\. Parallelism: Utilization & Technologies**
@@ -2057,6 +2033,7 @@ The Tensor Processing Unit is a custom application-specific integrated circuit d
 9\) Apache Spark \- machine learning, classification algorithms, clustering, frequent patterns, TF-IDF.
 
 10\) Others parallel technologies \- Apache Kafka, Nvidia Jetson, TPU.
+
 ## **MPA SKS**
 
 ### **1\. Communication System Services & Signalling**
@@ -2450,3 +2427,4 @@ This is a fundamental problem in WDM networks when establishing lightpaths (opti
    3. DWDM  
    4. TDM versus WDM  
    5. Routing and Wavelength Assignment (RWA).
+
