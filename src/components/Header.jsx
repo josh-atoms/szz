@@ -2,7 +2,7 @@ function Header({ isRandom, toggleMode, resetQuiz, showResults, setShowResults, 
   return (
     <header className="header">
       <div className="header-top">
-        <h1 className="logo">Quiz Master</h1>
+        <h1 className="logo">Quiz Master <span className="credit">(By Josh Atoms)</span></h1>
         {retryMode && <span className="retry-badge">Retry Mode</span>}
       </div>
 

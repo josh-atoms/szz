@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-function ResultsPanel({ correctQuestions, wrongQuestions, retryWrong, goToQuestion }) {
+function ResultsPanel({ correctQuestions, wrongQuestions, retryWrong, goToQuestion, totalQuestions }) {
   const [activeTab, setActiveTab] = useState('wrong');
 
-  const total = correctQuestions.length + wrongQuestions.length;
-  const percentage = total > 0 ? Math.round((correctQuestions.length / total) * 100) : 0;
+  const answered = correctQuestions.length + wrongQuestions.length;
+  const percentage = totalQuestions > 0 ? Math.round((correctQuestions.length / totalQuestions) * 100) : 0;
 
   return (
     <div className="results-panel">
@@ -35,7 +35,7 @@ function ResultsPanel({ correctQuestions, wrongQuestions, retryWrong, goToQuesti
             <span className="stat-label">Wrong</span>
           </div>
           <div className="stat-card stat-total">
-            <span className="stat-number">{total}</span>
+            <span className="stat-number">{answered}/{totalQuestions}</span>
             <span className="stat-label">Answered</span>
           </div>
         </div>

@@ -1,9 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { parseMarkdownQuestions, getSubjects } from './parseQuestions';
 import QuizCard from './components/QuizCard';
 import ResultsPanel from './components/ResultsPanel';
 import Header from './components/Header';
 import './App.css';
+
+const STORAGE_KEY = 'quizmaster_state';
+
+function saveState(state) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
 
 function App() {
   const [allQuestions, setAllQuestions] = useState([]);
@@ -18,6 +35,8 @@ function App() {
   const [retryMode, setRetryMode] = useState(false);
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [loaded, setLoaded] = useState(false);
+  const restoredRef = useRef(false);
 
   const shuffle = useCallback((arr) => {
     const a = [...arr];
@@ -37,6 +56,24 @@ function App() {
     return random ? shuffle(questions) : [...questions];
   }, [shuffle]);
 
+  // Save state whenever it changes
+  useEffect(() => {
+    if (!loaded) return;
+    saveState({
+      selectedSubject,
+      currentIndex,
+      isRandom,
+      correctQuestions,
+      wrongQuestions,
+      showResults,
+      retryMode,
+      history,
+      historyIndex,
+      queueQuestionIds: questionQueue.map((q) => q.Q),
+    });
+  }, [loaded, selectedSubject, currentIndex, isRandom, correctQuestions, wrongQuestions, showResults, retryMode, history, historyIndex, questionQueue]);
+
+  // Load questions and restore state
   useEffect(() => {
     fetch('/questions.md')
       .then((r) => r.text())
@@ -44,12 +81,39 @@ function App() {
         const parsed = parseMarkdownQuestions(text);
         setAllQuestions(parsed);
         setSubjects(getSubjects(parsed));
-        const queue = [...parsed];
-        setQuestionQueue(queue);
-        if (queue.length > 0) {
-          setHistory([queue[0]]);
-          setHistoryIndex(0);
+
+        const saved = loadState();
+        if (saved && saved.history && saved.history.length > 0) {
+          restoredRef.current = true;
+          setSelectedSubject(saved.selectedSubject || 'All');
+          setIsRandom(saved.isRandom || false);
+          setCorrectQuestions(saved.correctQuestions || []);
+          setWrongQuestions(saved.wrongQuestions || []);
+          setShowResults(saved.showResults || false);
+          setRetryMode(saved.retryMode || false);
+          setHistory(saved.history);
+          setHistoryIndex(saved.historyIndex ?? 0);
+          setCurrentIndex(saved.currentIndex ?? 0);
+
+          // Rebuild queue from saved IDs to preserve order
+          if (saved.queueQuestionIds) {
+            const qMap = new Map(parsed.map((q) => [q.Q, q]));
+            const restored = saved.queueQuestionIds
+              .map((id) => qMap.get(id))
+              .filter(Boolean);
+            setQuestionQueue(restored.length > 0 ? restored : parsed);
+          } else {
+            setQuestionQueue(parsed);
+          }
+        } else {
+          const queue = [...parsed];
+          setQuestionQueue(queue);
+          if (queue.length > 0) {
+            setHistory([queue[0]]);
+            setHistoryIndex(0);
+          }
         }
+        setLoaded(true);
       });
   }, []);
 
@@ -175,6 +239,7 @@ function App() {
             wrongQuestions={wrongQuestions}
             retryWrong={retryWrong}
             goToQuestion={goToQuestion}
+            totalQuestions={questionQueue.length}
           />
         ) : (
           <QuizCard

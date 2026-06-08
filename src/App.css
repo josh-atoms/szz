@@ -63,6 +63,13 @@ body {
   background-clip: text;
 }
 
+.credit {
+  font-size: 0.65rem;
+  font-weight: 400;
+  -webkit-text-fill-color: var(--text-muted);
+  opacity: 0.5;
+}
+
 .retry-badge {
   font-size: 0.75rem;
   font-weight: 600;
