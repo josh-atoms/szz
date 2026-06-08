@@ -618,40 +618,47 @@ This is a complementary mechanism to Fast Retransmit; it avoids dropping cwnd ba
 
 ### **8\. Mechanisms preventing congestion: Random Early Detection (RED) a Weighted Random Early Detection (WRED), Explicit Congestion Notification (ECN)**
 
-**RED (Random Early Detection)**
 
-This is an active queue management (AQM) algorithm running in routers. Instead of waiting for the buffer to overflow (tail drop), it **pro-actively drops packets** before the queue is full.
 
-* RED computes an **Exponentially Weighted Moving Average (EWMA)** of the queue length and randomly drops arriving packets with a probability P proportional to avg. 
+### **Random Early Detection (RED)**
 
-P \= max\_P \* (avg \- min\_th) / (max\_th \- min\_th).
+RED is a foundational queue management algorithm that preemptively drops a few packets before the router's buffer is completely full, signaling TCP senders to slow down.
 
-avg \> max\_th: Drop all packets (tail drop).
+* **Mechanism:** It monitors the average queue size.
+* If the queue is below a **minimum threshold**, no packets are dropped.
+* If the queue is between the **minimum and maximum thresholds**, packets are dropped randomly with a probability that increases as the queue grows.
+* If the queue exceeds the **maximum threshold**, all incoming packets are dropped.
 
-* **Goal:** The goal is to avoid global synchronization (when multiple TCP flows simultaneously experience tail-drop, halve their windows, and then all re-open at the same time, causing oscillating congestion).
 
-* **Effect:** Keeps queue sizes and delays low, eliminates systemic bias against bursty traffic.
+* **Key Benefits:** * **Prevents Global Synchronization:** By dropping packets randomly across different TCP flows, it prevents all senders from backing off and then ramping up at the exact same time (which causes cyclical network utilization).
+* **Manages Queue Depth:** Keeps the average queue size low, ensuring space is available to absorb sudden bursts of traffic.
+
+
+
+### **Weighted Random Early Detection (WRED)**
+
+WRED is an advanced extension of RED that introduces Quality of Service (QoS) into congestion avoidance. It treats traffic differently based on its priority level.
+
+* **Mechanism:** It applies different RED drop profiles (minimum/maximum thresholds and drop probabilities) to different classes of traffic. Traffic is usually classified by its IP Precedence or Differentiated Services Code Point (DSCP) values.
+* **Key Benefits:**
+* **Protects High-Priority Traffic:** Standard background traffic (like file downloads) will hit its lower RED thresholds and be dropped first. High-priority traffic (like VoIP or critical application data) will have higher thresholds, meaning it is spared from drops unless congestion is severe.
+
+
+
+### **Explicit Congestion Notification (ECN)**
+
+ECN is an extension to the IP and TCP protocols that allows end-to-end notification of network congestion without actually dropping packets.
+
+* **Mechanism:** It works in tandem with an AQM algorithm like RED.
+* When a router experiences congestion (e.g., the queue hits the RED threshold), instead of dropping the packet, it sets a specific **ECN bit** in the IP header to "mark" it.
+* The receiving device sees this mark and echoes it back to the sender in the TCP acknowledgment header.
+* The sender receives the acknowledgment, recognizes the congestion, and halves its transmission window—exactly as it would if a packet had been dropped.
+
+
+* **Key Benefits:**
+* **Reduces Latency and Retransmissions:** Because the packet isn't actually dropped, the sender doesn't have to wait for a timeout to retransmit the data, saving bandwidth and improving application performance. Both end hosts and intermediate routers must support and negotiate ECN for this to work.
 
  
-
-**WRED (Weighted Random Early Detection)**
-
-This is an extension of **RED** that supports **differentiated drop thresholds** based on IP Precedence (ToS) or DSCP markings.
-
-* With **WRED**, higher-priority traffic gets a larger min\_th (or higher max\_th), making it less likely to be dropped during incipient congestion. Low-priority traffic gets dropped more aggressively.
-
-* It enables basic class-based QoS via preferential packet discard.
-
- 
-
-**ECN (Explicit Congestion Notification) – (in this context, AQM side)**
-
-This works in tandem with **RED**. Instead of dropping a packet, **RED** can set the **Congestion Experienced (CE)** bits in the IP header (two bits of the DSCP/ECN field) if both endpoints are ECN-capable.
-
-The TCP receiver echoes the congestion back to the sender by setting the **ECE (ECN-Echo)** flag in the ACK. The sender reacts by halving cwnd (as if a drop occurred) but without packet loss. Reduces retransmission delay, good for latency-sensitive flows.
-
- 
-
 ### **9\. Quality of Service in data networks; Supervision of network traffic; Packet classification; Packet scheduling**
 
 QoS refers to the capability of a network to provide differentiated service levels to different traffic types, applications, or users according to their requirements.
